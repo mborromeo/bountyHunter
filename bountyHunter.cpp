@@ -52,7 +52,7 @@ public:
     virtual const char* Name (){return "Bounty Hunter";}
     virtual void Init (const char* config);
     virtual void Event (bz_EventData* eventData);
-    virtual void Cleanup ();
+    virtual void Cleanup (void);
 
 };
 
@@ -67,6 +67,12 @@ void bountyHunter::Init(const char* /*commandLine*/)
     
     Register(bz_ePlayerDieEvent);
     Register(bz_ePlayerPartEvent);
+}
+
+void bountyHunter::Cleanup(void)
+{
+    bz_debugMessage(4,"bountyHunter plugin unloaded");
+    Flush();
 }
 
 void bountyHunter::Event(bz_EventData* eventData)
