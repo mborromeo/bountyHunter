@@ -85,7 +85,7 @@ void bountyHunter::Event(bz_EventData* eventData)
             playerKills[diedata->killerID]++;
             
             int sizeOfRampageArray = sizeof(rampage)/sizeof(int);
-
+            
             if (playerKills[diedata->playerID] > 0)
             {
                 for (int i = 0; i < sizeOfRampageArray; i++)
@@ -93,10 +93,10 @@ void bountyHunter::Event(bz_EventData* eventData)
                     if (playerKills[diedata->playerID] >= rampage[i] && playerKills[diedata->playerID] < rampage[i+1])
                     {
                         int killerScore = bz_getPlayerWins(diedata->killerID);
-                        killerScore = killerScore + ((5*i) - 1);
+                        killerScore = killerScore + (2*i);
                         bz_setPlayerWins(diedata->killerID, killerScore);
                         
-                        bz_sendTextMessagef(BZ_SERVER, BZ_ALLUSERS, "%s has scored a %i point bounty by killing %s", bz_getPlayerByIndex(diedata->killerID)->callsign.c_str(), killerScore + 1, bz_getPlayerByIndex(diedata->playerID)->callsign.c_str());
+                        bz_sendTextMessagef(BZ_SERVER, diedata->killerID, "Stopping %s's rampage earned you %i bounty", bz_getPlayerByIndex(diedata->playerID)->callsign.c_str(), (2*i));
                     }
                 }
                 
