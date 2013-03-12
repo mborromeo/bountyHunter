@@ -39,7 +39,7 @@ License:
 BSD
 
 Version:
-1.0.2
+1.0.3
 */
 
 #include "bzfsAPI.h"
@@ -49,11 +49,10 @@ class bountyHunter : public bz_Plugin
 {
 public:
 
-    virtual const char* Name (){return "Bounty Hunter 2";}
+    virtual const char* Name (){return "Bounty Hunter";}
     virtual void Init (const char* config);
     virtual void Event (bz_EventData* eventData);
     virtual void Cleanup (void);
-
 };
 
 BZ_PLUGIN(bountyHunter);
@@ -87,6 +86,9 @@ void bountyHunter::Event(bz_EventData* eventData)
         {
             bz_PlayerDieEventData_V1* diedata = (bz_PlayerDieEventData_V1*)eventData;
 
+            if (diedata->killerID == 253)
+                return;
+
             if (diedata->playerID != diedata->killerID)
                 numberOfKills[diedata->killerID]++;
 
@@ -94,7 +96,7 @@ void bountyHunter::Event(bz_EventData* eventData)
             int killerRampageScore = 0;
             int killerBonusScore = 0;
             int sizeOfRampageArray = sizeof(rampage)/sizeof(int);
-bz_debugMessagef(0, "Player #%i dropped flag id %i at %f and player #%i died at %f", lastPlayerDied, flagID, timeDropped, diedata->killerID, bz_getCurrentTime());
+
             if (diedata->playerID == lastPlayerDied && diedata->playerID != diedata->killerID && timeDropped + 3 > bz_getCurrentTime())
             {
                 killerBonusScore = 2;
@@ -134,6 +136,11 @@ bz_debugMessagef(0, "Player #%i dropped flag id %i at %f and player #%i died at 
         case bz_eFlagDroppedEvent:
         {
             bz_FlagDroppedEventData_V1* flagdropdata = (bz_FlagDroppedEventData_V1*)eventData;
+
+            std::string flag = bz_getName(flagdropdata->flagID).c_str();
+
+            if (flag != "R*" || flag != "G*" || flag != "B*" || flag != "P*")
+                return;
 
             if (flagdropdata->flagID == 0 || flagdropdata->flagID == 1)
             {
