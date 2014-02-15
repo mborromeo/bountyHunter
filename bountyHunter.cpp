@@ -101,10 +101,14 @@ void BountyHunter::Event (bz_EventData *eventData)
                     // The rampage multiplier times two will be the amount of bounty points granted
                     int bountyPoints = rampageMultiplier * 2;
 
-                    // Set the player's new points and notify them
-                    bz_setPlayerWins(killerID, bz_getPlayerWins(killerID) + bountyPoints);
-                    bz_sendTextMessagef(BZ_SERVER, killerID, "Stopping %s's rampage earned you %i bounty points.",
-                        bz_getPlayerByIndex(victimID)->callsign.c_str(), bountyPoints);
+                    // Only reward bounty points if it's greater than 0
+                    if (bountyPoints > 0)
+                    {
+                        // Set the player's new points and notify them
+                        bz_setPlayerWins(killerID, bz_getPlayerWins(killerID) + bountyPoints);
+                        bz_sendTextMessagef(BZ_SERVER, killerID, "Stopping %s's rampage earned you %i bounty points.",
+                            bz_getPlayerByIndex(victimID)->callsign.c_str(), bountyPoints);
+                    }
                 }
 
                 // If the person killed was carrying a team flag less than 3 seconds ago, then reward the killer
