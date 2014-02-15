@@ -131,7 +131,7 @@ void BountyHunter::Event (bz_EventData *eventData)
             }
 
             // Reset the consecutive kills made by the player who just got killed
-            consecutiveKills[victimID] == 0;
+            consecutiveKills[victimID] = 0;
         }
         break;
 
