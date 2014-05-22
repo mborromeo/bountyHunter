@@ -96,7 +96,7 @@ void BountyHunter::Event (bz_EventData *eventData)
                 {
                     // This value will keep track of how many levels of a rampage a player has gotten where each level
                     // is an increment of 6 kills
-                    int rampageMultiplier = consecutiveKills[victimID] / 6;
+                    int rampageMultiplier = consecutiveKills[victimID] / 5;
 
                     // The rampage multiplier times two will be the amount of bounty points granted
                     int bountyPoints = rampageMultiplier * 2;
