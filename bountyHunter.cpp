@@ -106,8 +106,11 @@ void BountyHunter::Event (bz_EventData *eventData)
                     {
                         // Set the player's new points and notify them
                         bz_setPlayerWins(killerID, bz_getPlayerWins(killerID) + bountyPoints);
-                        bz_sendTextMessagef(BZ_SERVER, killerID, "Stopping %s's rampage earned you %i bounty points.",
-                            bz_getPlayerByIndex(victimID)->callsign.c_str(), bountyPoints);
+			bz_sendTextMessagef(BZ_SERVER, BZ_ALLUSERS, "%s earned %i bounty points stopping %s's rampage",
+                                bz_getPlayerByIndex(killerID)->callsign.c_str(),
+                                bountyPoints,
+                                bz_getPlayerByIndex(victimID)->callsign.c_str()
+                            );
                     }
                 }
 
